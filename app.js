@@ -1,19 +1,50 @@
-import express from 'express';
-import compression from 'compression';
-import cors from 'cors';
-import helmet from 'helmet';
-import mongoSanitize from 'express-mongo-sanitize';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
-import routes from './routes/index.js';
-import error from './middlewares/error.js';
+import express from "express";
+import compression from "compression";
+import cors from "cors";
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
+import morgan from "morgan";
+import bodyParser from "body-parser";
+import routes from "./routes/index.js";
+import error from "./middlewares/error.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
-const app= express();
+const app = express();
 
-// app.get('/favicon.ico', (req, res) => res.status(204));
-if (process.env.NODE_ENV !== 'production') {
-  app.use(morgan('dev'));
+// app.get("/favicon.ico", (req, res) => res.status(204));
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
 }
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Unicorn Shop API",
+      version: "1.0.0",
+      description: "Document for A UnicornShopAPI project",
+    },
+    component: {
+      securitySchemas: {
+        bearerAuth: {
+          type: "http",
+          schema: "bearer",
+          bearerFormat: "JWT"
+        }
+      }
+    },
+    secutity: {
+      bearerAuth: []
+    },
+    servers: [
+      {
+        url: "http://localhost:5000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
 
 app.use(helmet());
 
@@ -31,10 +62,13 @@ app.use(compression());
 
 // enable cors
 app.use(cors());
-// app.options('*', cors);
+// app.options("*", cors);
 
 // v1 api routes
-app.use('/v1', routes);
+app.use("/api", routes);
+
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // if error is not an instanceOf APIError, convert it.
 app.use(error.converter);

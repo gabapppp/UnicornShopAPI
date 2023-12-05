@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -11,19 +11,19 @@ const CONNECTION_URL = process.env.MONGODB_URL;
 const PORT = process.env.PORT || 3000;
 
 // Exit on error
-mongoose.connection.on('error', (err) => {
+mongoose.connection.on("error", (err) => {
   logger.error(`MongoDB connection error: ${err}`);
   process.exit(1);
 });
 
 // Mongoose logs in development environment
-if (process.env.NODE_ENV !== 'production') {
-  mongoose.set('debug', true);
+if (process.env.NODE_ENV !== "production") {
+  mongoose.set("debug", true);
 }
 
 let server;
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-  logger.info('Connected to MongoDB');
+  logger.info("Connected to MongoDB");
   server = app.listen(PORT, () => {
     logger.info(`Listening to port ${PORT}`);
   });
@@ -32,7 +32,7 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
 const exitHandler = () => {
   if (server) {
     server.close(() => {
-      logger.info('Server closed');
+      logger.info("Server closed");
       process.exit(1);
     });
   } else {
@@ -45,11 +45,11 @@ const unexpectedErrorHandler = (error) => {
   exitHandler();
 };
 
-process.on('uncaughtException', unexpectedErrorHandler);
-process.on('unhandledRejection', unexpectedErrorHandler);
+process.on("uncaughtException", unexpectedErrorHandler);
+process.on("unhandledRejection", unexpectedErrorHandler);
 
-//   process.on('SIGTERM', () => {
-//     logger.info('SIGTERM received');
+//   process.on("SIGTERM", () => {
+//     logger.info("SIGTERM received");
 //     if (server) {
 //       server.close();
 //     }

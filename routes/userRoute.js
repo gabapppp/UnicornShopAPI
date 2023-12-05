@@ -8,7 +8,7 @@ import schemas from '../validations/userValidations.js';
 
 const router = express.Router();
 
- router
+router
   .route('/')
   .get(
     trimRequest.all,
