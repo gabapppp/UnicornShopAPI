@@ -1,11 +1,11 @@
 import express from 'express';
-//import authRoute from './authRoute.js';
+import authRoute from './authRoute.js';
 //import userRoute from './userRoute.js';
 
 const router = express.Router();
 /***
  * @openapi
- * /v1/status:
+ * /api/admin/status:
  *  get:
  *    description: Responds if the app is up and running
  *    tags:
@@ -31,7 +31,7 @@ router.get('/status', (req, res) => {
 });
 
 
-//router.use('/auth', authRoute); //add routes
+router.use('/auth', authRoute); //add routes
 //router.use('/user', userRoute)
 
 export default router;
