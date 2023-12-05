@@ -1,53 +1,50 @@
-import mongoose, { Schema } from "mongoose";
-import { category } from "../config/product.js  ";
+import mongoose from "mongoose";
+import { category, department } from "../config/product.js  ";
 const { TEES, ACCESSORIES, POLOS, SWEETSHIRTS_AND_HOODLES, PANTS, JACKETS, SWEATERS, SHORTS, SWIMWEAR, CASUAL_SHIRT, LOUGE_AND_UNDERWEAR } = category;
+const { MALE, KID, FEMALE, BIG_AND_TALL, UNISEX } = department;
 
 const productSchema = new mongoose.Schema({
-    productID: { type: Number, unique: true, required: true },
+    productID: { type: Number, unique: true },
     name: { type: String, required: true },
     color: { type: String },
     image: { type: String },
     category: { type: String, enum: [TEES, ACCESSORIES, POLOS, SWEETSHIRTS_AND_HOODLES, PANTS, JACKETS, SWEATERS, SHORTS, SWIMWEAR, CASUAL_SHIRT, LOUGE_AND_UNDERWEAR] },
-    department: { type: String, enum: ["Male", "Kid", "Female", "Big and Tall", "Unisex"] },
+    department: { type: String, enum: [MALE, KID, FEMALE, BIG_AND_TALL, UNISEX] },
     size: {
         type: String, enum: ["XS", "S", "M", "L", "XL", "XXL"], required: true
     },
     description: { type: String },
-    price: { type: Schema.Types.Decimal128, required: true },
-    stock: { type: Schema.Types.Decimal128, default: 0 },
+    price: { type: Number, required: true },
+    stock: { type: Number, default: 0 },
     rateAvg: { type: Number }
-}, { collection: "products" });
+}, { timestamps: true });
 
-const genarateProductID = () => {
-    min = 100000;
-    max = 999999;
-
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-productSchema.pre('save', (next) => {
+productSchema.pre('save', function (next) {
     const doc = this;
-    if (!doc.productID) {
-        let randomNumber = genarateProductID;
-
-        function checkAndCreateID() {
-            ProductModel.findOne({ productID: randomNumber }).sort({ customId: -1 }).exec((err, existingDoc) => {
-                if (err) {
-                    return next(err);
-                }
-                if (existingDoc) {
-                    randomNumber = generateProductID;
-                    return checkAndCreateID();
-                }
+    try {
+        let randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
+        async function checkAndCreateID() {
+            const exist = await ProductModel.findOne({ productID: randomNumber })
+            if (!exist) {
                 doc.productID = randomNumber;
                 next();
-            });
+            };
         }
+
+        const timeoutDuration = 5000;
+        const timeout = setTimeout(() => {
+            clearTimeout(timeout);
+            next(new Error('Timeout occurred while creating data'));
+        }, timeoutDuration);
+
         checkAndCreateID();
-    } else {
-        next();
     }
+    catch (error) {
+        next(error)
+    }
+
 });
 
-const ProductModel = mongoose.model("ProductSchema", productSchema);
+const ProductModel = mongoose.model("product", productSchema);
 
 export default ProductModel;
