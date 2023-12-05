@@ -32,6 +32,7 @@ router
     isActiveUser,
     controller.resetPassword
   );
+/*
 
 router
   .route("/google-register")
@@ -48,5 +49,7 @@ router
     validate(schemas.googleUserSchema),
     controller.googleUserLogin
   )
- 
+
+*/
+
 export default router;
