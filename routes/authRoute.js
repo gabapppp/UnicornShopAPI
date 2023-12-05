@@ -32,8 +32,8 @@ router
     isActiveUser,
     controller.resetPassword
   );
-/*
 
+/*
 router
   .route("/google-register")
   .post(
