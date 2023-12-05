@@ -5,10 +5,11 @@ const userSchema = new mongoose.Schema({
     fullname: { type: String, },
     image: { type: String },
     email: { type: String, required: true, unique: true },
-    phone: { type: String, required: true },
-    password: { type: String },
-}, { collection: "user.Customer" })
+    phone: { type: String },
+    address: { type: String },
+    password: { type: String, required: true },
+}, { timestamps: true })
 
-const UserModel = mongoose.model('UserSchema', userSchema)
+const UserModel = mongoose.model('user.Customer', userSchema)
 
 export default UserModel;

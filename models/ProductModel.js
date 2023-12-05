@@ -1,14 +1,16 @@
 import mongoose, { Schema } from "mongoose";
+import { category } from "../config/product.js  ";
+const { TEES, ACCESSORIES, POLOS, SWEETSHIRTS_AND_HOODLES, PANTS, JACKETS, SWEATERS, SHORTS, SWIMWEAR, CASUAL_SHIRT, LOUGE_AND_UNDERWEAR } = category;
 
 const productSchema = new mongoose.Schema({
     productID: { type: Number, unique: true, required: true },
     name: { type: String, required: true },
     color: { type: String },
     image: { type: String },
-    category: { type: String, enum: ["Tees", "Acessories", "Polos", "Sweetshirts and Hoodles", "Pants", "Jackets", "Sweaters", "Shorts", "Swimwear", "Casual Shirt", "Lounge and Underwear"] },
+    category: { type: String, enum: [TEES, ACCESSORIES, POLOS, SWEETSHIRTS_AND_HOODLES, PANTS, JACKETS, SWEATERS, SHORTS, SWIMWEAR, CASUAL_SHIRT, LOUGE_AND_UNDERWEAR] },
     department: { type: String, enum: ["Male", "Kid", "Female", "Big and Tall", "Unisex"] },
     size: {
-        type: String, enum: ["XS", "S", "M", "L", "XL", "XXL"], default: M
+        type: String, enum: ["XS", "S", "M", "L", "XL", "XXL"], required: true
     },
     description: { type: String },
     price: { type: Schema.Types.Decimal128, required: true },

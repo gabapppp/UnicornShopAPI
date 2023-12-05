@@ -6,7 +6,7 @@ import APIError from '../utils/APIError.js';
 import bcrypt from 'bcryptjs';
 
 const createNewUser = async (user) => {
-  const oldUser = await UserModel.findOne({ email: user.email.toLowerCase() });
+  const oldUser = await UserModel.findOne({ username: user.username, email: user.email.toLowerCase() });
   if (oldUser)
     throw new APIError(httpStatus.BAD_REQUEST, "Email already exists.")
   const newUser = await UserModel.create(user);
@@ -25,9 +25,15 @@ const createNewGoogleUser = async ({ id, email, firstName, lastName, profilePhot
   return newUser;
 }
 
-const fetchUserFromEmailAndPassword = async ({ email, password }) => {
+const fetchUserFromEmailAndPassword = async ({ username, email, password }) => {
   const user = await UserModel.findOne({
-    email: email.toLowerCase(),
+    $or: [{
+      email: email.toLowerCase()
+    },
+    {
+      username: username
+    }
+    ]
   })
     .lean();
 
