@@ -15,8 +15,10 @@ const createNewProduct = async (product) => {
     return newProduct;
 };
 
-const fetchProductList = async () => {
-    const list = ProductModel.find({});
+const fetchProductList = async (page, size) => {
+    const limit = size ? +size : 5;
+    const offset = page ? page * limit : 0;
+    const list = ProductModel.paginate({}, { offset: offset, limit: limit }).then({});
     return list;
 };
 

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { category, department } from "../config/product.js  ";
+import mongoosePaginate from 'mongoose-paginate-v2';
 const { TEES, ACCESSORIES, POLOS, SWEETSHIRTS_AND_HOODLES, PANTS, JACKETS, SWEATERS, SHORTS, SWIMWEAR, CASUAL_SHIRT, LOUGE_AND_UNDERWEAR } = category;
 const { MALE, KID, FEMALE, BIG_AND_TALL, UNISEX } = department;
 
@@ -18,6 +19,8 @@ const productSchema = new mongoose.Schema({
     stock: { type: Number, default: 0 },
     rateAvg: { type: Number }
 }, { timestamps: true });
+
+productSchema.plugin(mongoosePaginate);
 
 productSchema.pre('save', function (next) {
     const doc = this;
