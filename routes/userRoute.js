@@ -5,7 +5,6 @@ import controller from '../controllers/userController.js';
 import trimRequest from 'trim-request';
 
 import schemas from '../validations/userValidations.js';
-
 const router = express.Router();
 
 router

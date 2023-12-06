@@ -12,4 +12,12 @@ const category = {
     LOUGE_AND_UNDERWEAR: "Lounge and Underwear"
 };
 
-export { category };
+const department = {
+    MALE: "Male",
+    KID: "Kid",
+    FEMALE: "Female",
+    BIG_AND_TALL: "Big and Tall",
+    UNISEX: "Unisex"
+}
+
+export { category, department };
