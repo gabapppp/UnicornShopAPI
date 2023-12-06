@@ -9,7 +9,6 @@ const createNewUser = async (user) => {
     const oldUser = await UserStaffModel.findOne({ email: user.email.toLowerCase() });
     if (oldUser)
         throw new APIError(httpStatus.BAD_REQUEST, "Email already exists.")
-    console.log(user)
     const newUser = await UserStaffModel.create(user);
     if (!newUser)
         throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!")
