@@ -27,7 +27,7 @@ const fetchProductDetail = async (productID) => {
     return product;
 };
 
-const updateProduct = async (productID) => {
+const updateProductByID = async (productID) => {
     const oldProduct = await ProductModel.findOne({ productID: productID });
     if (!oldProduct)
         throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
@@ -36,7 +36,7 @@ const updateProduct = async (productID) => {
 };
 
 export {
-    createNewProduct, fetchProductList, fetchProductDetail, updateProduct
+    createNewProduct, fetchProductList, fetchProductDetail, updateProductByID
 }
 
 
