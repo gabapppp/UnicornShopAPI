@@ -1,4 +1,4 @@
-import { createNewProduct } from "../services/productService.js";
+import { createNewProduct, fetchProductList, fetchProductDetail, updateProduct } from "../services/productService.js";
 
 const createProduct = async (req, res, next) => {
     const { name, color, image, category, department, size, description, price, stock } = req.body;
@@ -32,7 +32,9 @@ const getProductDetail = async (req, res, next) => {
 
 const getProductList = async (req, res, next) => {
     try {
+        const productList = await fetchProductList();
 
+        res.json(productList);
     }
     catch (e) {
         next(e);
@@ -47,8 +49,6 @@ const updateProduct = async (req, res, next) => {
         next(e);
     }
 };
-
-
 
 export default {
     createProduct, getProductList, getProductDetail, updateProduct

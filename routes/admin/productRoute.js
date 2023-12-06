@@ -2,11 +2,13 @@ import express from "express";
 import trimRequest from "trim-request";
 import { isStaffUser } from "../../middlewares/isStaffUser.js";
 import controller from "../../controllers/productAdminController.js";
+import schemas from "../../validations/productValidations.js";
+import validate from "../../utils/yupValidations.js";
 
 
 const router = express.Router();
 router.route("/").post(
-    trimRequest.all, isStaffUser, controller.createProduct
+    trimRequest.all, isStaffUser, validate(schemas.createSchema), controller.createProduct
 );
 
 router.route("/list").get(

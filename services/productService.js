@@ -15,13 +15,28 @@ const createNewProduct = async (product) => {
     return newProduct;
 };
 
-const getProductList = async () => {
+const fetchProductList = async () => {
     const list = ProductModel.find({});
     return list;
-}
+};
+
+const fetchProductDetail = async (productID) => {
+    const product = await ProductModel.findOne({ productID: productID });
+    if (!product)
+        throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
+    return product;
+};
+
+const updateProduct = async (productID) => {
+    const oldProduct = await ProductModel.findOne({ productID: productID });
+    if (!oldProduct)
+        throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
+    const newProduct = await ProductModel.updateOne({ productID: productID }, {});
+    return newProduct;
+};
 
 export {
-    createNewProduct
+    createNewProduct, fetchProductList, fetchProductDetail, updateProduct
 }
 
 
