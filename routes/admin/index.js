@@ -1,5 +1,6 @@
 import express from 'express';
 import authRoute from './authRoute.js';
+import orderRoute from './orderRoute.js';
 //import userRoute from './userRoute.js';
 
 const router = express.Router();
