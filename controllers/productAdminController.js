@@ -56,7 +56,7 @@ const updateProduct = async (req, res, next) => {
             description: description,
             price: price,
             stock: stock
-        });
+        }); as
         res.json(newProduct);
     }
     catch (e) {
