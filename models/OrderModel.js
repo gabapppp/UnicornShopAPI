@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { orderStatus } from "../config/orderStatus.js";
 const { PENDING, CANCELED, SUCCESS, INTRASIT, DELIVERED } = orderStatus;
 
@@ -10,6 +10,11 @@ const orderSchema = new mongoose.Schema({
     address: { type: String, required: true },
     status: { type: String, enum: [PENDING, CANCELED, SUCCESS, INTRASIT, DELIVERED], default: PENDING },
     trackingID:  { type: String },
+    customerID: {
+        type: Schema.Types.ObjectId,
+        ref: "user.customers",
+        required: true
+    },
 }, { timestamps: true })
 
 const OrderModel = mongoose.model('Order', orderSchema)

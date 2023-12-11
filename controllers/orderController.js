@@ -1,20 +1,19 @@
-import { createNewOrder, 
+import { createNewOrder, OrderList, OrderDetail
     //fetchOrderList, fetchOrderDetail, updateOrder 
 } from "../services/orderService.js";
 
 const createOrder = async (req, res, next) => {
-    const { name, color, image, category, department, size, description, price, stock } = req.body;
+    const { username, fullname, email, phone, address, status, trackingID, customerID } = req.body;
     try {
-        const newProduct = await createNewProduct({
-            name: name,
-            color: color,
-            image: image,
-            category: category,
-            department: department,
-            size: size,
-            description: description,
-            price: price,
-            stock: stock
+        const newOrder = await createNewProduct({
+            username: username,
+            fullname: name, 
+            email: email, 
+            phone: phone, 
+            address: address, 
+            status: status, 
+            trackingID: trackingID, 
+            customerID: customerID
         });
         res.json(newProduct);
     }
@@ -23,35 +22,37 @@ const createOrder = async (req, res, next) => {
     }
 };
 
-const getProductDetail = async (req, res, next) => {
+const getOrderDetail = async (req, res, next) => {
+    const customerID = "";
     try {
-
+        const order = await OrderDetail(customerID);
+        res.json(order);
     }
     catch (e) {
         next(e);
     }
 };
 
-const getProductList = async (req, res, next) => {
+const getOrderList = async (req, res, next) => {
     try {
-        const productList = await fetchProductList();
+        const orderList = await orderList();
 
-        res.json(productList);
+        res.json(orderList);
     }
     catch (e) {
         next(e);
     }
 };
 
-const updateProduct = async (req, res, next) => {
-    try {
+// const updateProduct = async (req, res, next) => {
+//     try {
 
-    }
-    catch (e) {
-        next(e);
-    }
-};
+//     }
+//     catch (e) {
+//         next(e);
+//     }
+// };
 
-export default {
-    createProduct, getProductList, getProductDetail, updateProduct
-}
+// export default {
+//     createProduct, getProductList, getProductDetail, updateProduct
+// }
