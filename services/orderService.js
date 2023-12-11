@@ -10,64 +10,27 @@ const createNewOrder = async (oder) => {
     return newOrder;
 };
 
-const fetchOrderListByUserID = async (customerID) => {
-    const list = await OrderModel.find({ customerID: customerID });
-    if (!list)
-        throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
-    return list;
-};
+// const fetchOrderList = async () => {
+//     const list = OrderModel.find({});
+//     return list;
+// };
 
-const fetchOrderByID = async (orderID, userId) => {
-    const order = await OrderModel.findOne({ _id: orderID, customerRef: userId });
-    console.log(order)
-    if (!order)
-        throw new APIError(httpStatus.BAD_REQUEST, "Product not found");
-    return order;
-};
+// const fetchOrderDetail = async (productID) => {
+//     const product = await ProductModel.findOne({ productID: productID });
+//     if (!product)
+//         throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
+//     return product;
+// };
 
-const updateOrderStatusToCancel = async (orderID) => {
-    const oldOrder = await OrderModel.findById(orderID);
-    if (!oldOrder)
-        throw new APIError(httpStatus.BAD_REQUEST, "Product not found");
-    if (oldOrder.status == orderStatus.PENDING) {
-        const newOrder = await OrderModel.updateOne({ _id: orderID, status: orderStatus.CANCELED });
-        if (!newOrder)
-            throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
-    }
-    return
-};
+// const updateOrder  = async (productID) => {
+//     const oldProduct = await ProductModel.findOne({ productID: productID });
+//     if (!oldProduct)
+//         throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
+//     const newProduct = await ProductModel.updateOne({ productID: productID }, {});
+//     return newProduct;
+// };
 
-const createOrderItem = async (item) => {
-    const oldItem = await OrderItemModel.exists({ productID: item.productID, orderID: item.orderID });
-    if (oldItem)
-        throw new APIError(httpStatus.BAD_REQUEST, "Item found, seems our server needed a break!");
-    const newItem = await OrderItemModel.create(item);
-    if (!newItem)
-        throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
-    return newItem;
-};
-
-const fetchOrderItemByOrderID = async (orderID, userId) => {
-    const order = await OrderModel.findOne({ _id: orderID, userId });
-    if (!order)
-        throw new APIError(httpStatus.BAD_REQUEST, "Order not found");
-    const listItem = await OrderItemModel.find({ orderID: orderID });
-    return listItem;
-}
-
-const fetchFirstOrderItem = async (orderID) => {
-    const order = await OrderModel.findById(orderID);
-    if (!order)
-        throw new APIError(httpStatus.BAD_REQUEST, "Order not found");
-    const firstItem = await OrderItemModel.findOne(order);
-    return firstItem;
-}
 export {
-    createNewOrder,
-    fetchOrderByID,
-    fetchOrderListByUserID,
-    updateOrderStatusToCancel,
-    createOrderItem,
-    fetchOrderItemByOrderID,
-    fetchFirstOrderItem
+    createNewOrder//, fetchProductList, fetchProductDetail, updateProduct
 }
+
