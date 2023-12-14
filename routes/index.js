@@ -1,7 +1,9 @@
 import express from 'express';
 import authRoute from './authRoute.js';
 import userRoute from './userRoute.js';
-import adminRoute from './admin/index.js'
+import orderRoute from './orderRoute.js';
+
+import adminRoute from './admin/index.js';
 const router = express.Router();
 /***
  * @openapi
@@ -32,6 +34,9 @@ router.get('/status', (req, res) => {
 
 router.use('/auth', authRoute); //add routes
 router.use('/user', userRoute);
+router.use('/order', orderRoute);
+
+
 
 router.use('/admin', adminRoute);
 export default router;

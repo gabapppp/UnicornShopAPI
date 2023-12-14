@@ -8,15 +8,15 @@ import schemas from "../validations/orderValidations.js";
 
 const router = express.Router();
 router
-  .route('/order')
-  .post(trimRequest.all, isActiveUser, controller.createOrder, validate(schemas.createSchema) );
+  .route('/')
+  .post(trimRequest.all, isActiveUser, controller.createOrder, validate(schemas.createSchema));
 
 router
-  .route('/order')
-  .get(trimRequest.all, isActiveUser, controller.getOrderList, validate(schemas.listSchema) );
+  .route('/list')
+  .get(trimRequest.all, isActiveUser, controller.getOrderList, validate(schemas.listSchema));
 
 router
-  .route('/oder')
-  .get(trimRequest.all, isActiveUser, controller.getOrderDetail, validate(schemas.detailSchema) );
+  .route('/:orderID')
+  .get(trimRequest.all, isActiveUser, controller.getOrderDetail, validate(schemas.detailSchema));
 
 export default router;

@@ -1,21 +1,17 @@
-import { createNewOrder, OrderList, OrderDetail
+import {
+    createNewOrder, OrderList, OrderDetail
     //fetchOrderList, fetchOrderDetail, updateOrder 
 } from "../services/orderService.js";
 
 const createOrder = async (req, res, next) => {
-    const { username, fullname, email, phone, address, status, trackingID, customerID } = req.body;
+    const { phone, address, item } = req.body;
     try {
-        const newOrder = await createNewProduct({
-            username: username,
-            fullname: name, 
-            email: email, 
-            phone: phone, 
-            address: address, 
-            status: status, 
-            trackingID: trackingID, 
-            customerID: customerID
+
+        const newOrder = await createNewOrder({
+            phone: phone,
+            address: address,
         });
-        res.json(newProduct);
+        res.json({ "none": "none" });
     }
     catch (error) {
         next(error);
@@ -23,9 +19,9 @@ const createOrder = async (req, res, next) => {
 };
 
 const getOrderDetail = async (req, res, next) => {
-    const customerID = "";
+    const { orderID } = req.params;
     try {
-        const order = await OrderDetail(customerID);
+        const order = await OrderDetail(orderID);
         res.json(order);
     }
     catch (e) {
@@ -35,7 +31,7 @@ const getOrderDetail = async (req, res, next) => {
 
 const getOrderList = async (req, res, next) => {
     try {
-        const orderList = await orderList();
+        const orderList = await OrderList();
 
         res.json(orderList);
     }
@@ -53,6 +49,6 @@ const getOrderList = async (req, res, next) => {
 //     }
 // };
 
-// export default {
-//     createProduct, getProductList, getProductDetail, updateProduct
-// }
+export default {
+    createOrder, getOrderDetail, getOrderList
+}
