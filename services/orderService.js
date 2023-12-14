@@ -9,27 +9,19 @@ const createNewOrder = async (order) => {
     return newProduct;
 };
 
-// const fetchOrderList = async () => {
-//     const list = OrderModel.find({});
-//     return list;
-// };
+const OrderList = async () => {
+    const list = OrderModel.find({});
+    return list;
+};
 
-// const fetchOrderDetail = async (productID) => {
-//     const product = await ProductModel.findOne({ productID: productID });
-//     if (!product)
-//         throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
-//     return product;
-// };
-
-// const updateOrder  = async (productID) => {
-//     const oldProduct = await ProductModel.findOne({ productID: productID });
-//     if (!oldProduct)
-//         throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
-//     const newProduct = await ProductModel.updateOne({ productID: productID }, {});
-//     return newProduct;
-// };
+const OrderDetail = async (customerID) => {
+    const order = await OrderModel.findOne({ custumerID: custumerID });
+    if (!order)
+        throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
+    return order;
+};
 
 export {
-    createNewOrder//, fetchProductList, fetchProductDetail, updateProduct
+    createNewOrder, OrderList, OrderDetail, //updateProduct
 }
 
