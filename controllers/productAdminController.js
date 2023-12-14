@@ -22,9 +22,9 @@ const createProduct = async (req, res, next) => {
 };
 
 const getProductDetail = async (req, res, next) => {
-    const productID = "";
+    const { id } = req.params;
     try {
-        const product = await fetchProductDetail(productID);
+        const product = await fetchProductDetail(id);
         res.json(product);
     }
     catch (e) {
@@ -33,8 +33,10 @@ const getProductDetail = async (req, res, next) => {
 };
 
 const getProductList = async (req, res, next) => {
+    const { page, size } = req.query;
     try {
-        const productList = await fetchProductList();
+        console.log(page)
+        const productList = await fetchProductList(page, size);
         res.json(productList);
     }
     catch (e) {
