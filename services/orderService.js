@@ -3,15 +3,8 @@ import httpStatus from 'http-status';
 import APIError from "../utils/APIError.js";
 import { orderStatus } from "../config/orderStatus.js";
 
-const createNewOrder = async (order) => {
-    const newOrder = await OrderModel.create({
-        customerRef: order.customer._id,
-        username: order.customer.username,
-        email: order.customer.email,
-        fullname: order.fullname,
-        phone: order.phone,
-        address: order.address,
-    });
+const createNewOrder = async (oder) => {
+    const newOrder = await OrderModel.create(OrderModel);
     if (!newOrder)
         throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
     return newOrder;
