@@ -4,6 +4,7 @@ import { createCouponList, getCouponList, getCouponDetail, updateCouponDetail, d
 const createCoupon = async (req, res, next) => {
     const {qty, name, description, type, uses, is_fixed, max_uses, expiresAT, startsAT} = req.body
     try {
+      let couponCnt = 0;
         const newCouponList = await createCouponList({
             qty: qty,
             name: name,
@@ -15,6 +16,7 @@ const createCoupon = async (req, res, next) => {
             expiresAT: expiresAT,
             startsAT: startsAT,
         });
+        couponCnt += qty;
         res.json(newCoupon);
     }catch(error){
         next(error)
@@ -30,8 +32,7 @@ const getAllCoupons = async (req, res, next) => {
     }
   }
 
-  const getCoupon = async (req, res, next) => {
-
+const getCoupon = async (req, res, next) => {
     try {
   
       const id = req.params.id;
@@ -47,8 +48,7 @@ const getAllCoupons = async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  
-  }
+}
 
 const updateCoupon = async (req, res, next) => {
     try {
