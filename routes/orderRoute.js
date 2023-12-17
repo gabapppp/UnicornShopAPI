@@ -9,14 +9,18 @@ import schemas from "../validations/orderValidations.js";
 const router = express.Router();
 router
   .route('/')
-  .post(trimRequest.all, isActiveUser, controller.createOrder, validate(schemas.createSchema));
+  .post(trimRequest.all, isActiveUser, controller.createOrder);
 
 router
   .route('/list')
-  .get(trimRequest.all, isActiveUser, controller.getOrderList, validate(schemas.listSchema));
+  .get(trimRequest.all, isActiveUser, controller.getOrderList);
 
 router
   .route('/:orderID')
-  .get(trimRequest.all, isActiveUser, controller.getOrderDetail, validate(schemas.detailSchema));
+  .get(trimRequest.all, isActiveUser, controller.getOrderDetail);
+
+router
+  .route('/:orderID')
+  .post(trimRequest.all, isActiveUser, controller.cancelOrder);
 
 export default router;
