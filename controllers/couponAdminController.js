@@ -1,11 +1,70 @@
 import { createCouponList, getCouponList, getCouponDetail, updateCouponDetail, deleteCouponDetail } from "../services/couponAdminService";
+import schemas from "../validations/couponValidation";
 
+
+const createCouponCode = async (req, res, next) => {
+
+  try {
+
+    // Generate coupon code
+    const couponCode = createCouponCode();
+    
+    // Create coupon object
+    const coupon = {
+      couponCode, 
+    };
+
+    // Create coupon
+    const newCoupon = await createCouponList(coupon);
+
+    res.json(newCoupon);
+
+  } catch(err) {
+    
+    next(err);
+
+  }
+
+}
 
 const createCoupon = async (req, res, next) => {
     const {qty, name, description, type, uses, is_fixed, max_uses, expiresAT, startsAT} = req.body
     try {
-      let couponCnt = 0;
-        const newCouponList = await createCouponList({
+      let coupon;
+      // Create coupon based on type
+    if(type === type.voucher) {
+      coupon = {
+        name,
+        type: type.voucher,
+        value  
+      }
+    }
+
+    if(type === type.discount) {
+      coupon = {
+        name,
+        type: type.discount, 
+        value: value + '%'  
+      }
+    }
+
+    if(type === type.sale) {
+      coupon = {
+        name,
+        type: type.sale,
+        value: value + '% off'
+      }
+    }
+
+    const { error } = schemas[type].validate(coupon);
+    if(error) throw error;
+
+    // Generate coupon code
+    coupon.code = createCouponCode();
+
+    // Create coupon
+    const newCoupon = await createCouponCode(coupon);
+    const newCouponList = await createCouponList({
             qty: qty,
             name: name,
             description: description,
@@ -16,12 +75,13 @@ const createCoupon = async (req, res, next) => {
             expiresAT: expiresAT,
             startsAT: startsAT,
         });
-        couponCnt += qty;
-        res.json(newCoupon);
+        coupon += qty;
+        res.json(coupon);
     }catch(error){
         next(error)
     }
 }
+
 
 const getAllCoupons = async (req, res, next) => {
     try {
@@ -71,6 +131,8 @@ const deleteCoupon = async (req, res, next) => {
     }
 }
 
+
+
 export default {
-  createCoupon, getAllCoupons, getCoupon, updateCoupon, deleteCoupon
+  createCoupon, createCouponCode, getAllCoupons, getCoupon, updateCoupon, deleteCoupon
 }
