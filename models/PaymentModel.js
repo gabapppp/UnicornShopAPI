@@ -3,8 +3,8 @@ import { couponDescription } from "../config/coupon.js";
 const { FREESHIP, PERCENTAGE, PERFREESHIP, SUBTOTAL, DISCOUNT } = couponDescription;
 
 const paymentSchema = new mongoose.Schema({
-    orderID: { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: true, unique: true },
-    couponID: { type: mongoose.Schema.Types.ObjectId, ref: "Coupon" },
+    orderID: { type: String, ref: "Order", required: true, unique: true },
+    couponID: { type: String, ref: "Coupon" },
     couponDescription: { type: String, enum: [FREESHIP, PERCENTAGE, PERFREESHIP, SUBTOTAL, DISCOUNT] },
     billAmount: { type: Number, required: true },
     couponAmount: { type: Number },
