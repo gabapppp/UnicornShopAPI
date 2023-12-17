@@ -15,13 +15,26 @@ const createNewProductReview = async (productReview) => {
     return newProductReview;
 };
 
+const updateProductReviewAverageRate = async (productId) => {
+    const productReviews = await ProductReview.findAll({product_iD: productID });
+  
+    if (productReviews.length === 0) {
+      return;
+    }
+  
+    const totalRate = productReviews.reduce((sum, review) => sum + parseInt(review.rate, 10), 0);
+    const averageRate = totalRate / productReviews.length;
+  
+    await ProductReview.update({ rate_agv: averageRate }, { where: { product_id: productId } });
+  };
+
 const productReviewList = async (productID) => {
     const list = await productReviewModel.find({ customerID: customerID, rate: rate , comment: comment });
     return list;
 };
 
 export {
-    createNewProductReview, productReviewList
+    createNewProductReview, productReviewList, updateProductReviewAverageRate
 }
 
 

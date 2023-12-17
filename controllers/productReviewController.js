@@ -1,5 +1,5 @@
 import {
-    createNewProductReview, getProductReviewList, productReviewList
+    createNewProductReview, productReviewList, updateProductReviewAverageRate
 } from "../services/productReviewService.js";
 
 const createProductReview = async (req, res, next) => {    
@@ -11,6 +11,9 @@ const createProductReview = async (req, res, next) => {
             custemerID: custemerID,
             productID: productID
         });
+
+        await updateProductReviewAverageRate(productID);
+        
         res.json({
             customerID: customerID,
             producId: productID,
@@ -22,10 +25,6 @@ const createProductReview = async (req, res, next) => {
         next(error);
     }
 };
-
-const updateRate_avg = async (req, res, next) ={
-
-}
 
 
 const getProductReviewList = async (req, res, next) => {
