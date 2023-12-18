@@ -4,7 +4,6 @@ import userRoute from './userRoute.js';
 import orderRoute from './orderRoute.js';
 import adminRoute from './admin/index.js';
 import productReviewRoute from './productReviewRoute.js';
-import { productReviewList } from '../services/productReviewService.js';
 
 const router = express.Router();
 /***
