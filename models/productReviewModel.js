@@ -11,7 +11,7 @@ const productReviewSchema = new mongoose.Schema({
         ref: "user.customers",
         required: true
     },
-    comment: { type: String },
+    feedback: { type: String },
     rate: { type: Number, enum: [1, 2, 3, 4, 5] },
 }, { timestamps: true });
 

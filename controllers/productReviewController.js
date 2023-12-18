@@ -1,25 +1,21 @@
-import {
-    createNewProductReview, productReviewList, updateProductReviewAverageRate
-} from "../services/productReviewService.js";
+import productReviewModel from "../models/productReviewModel.js";
 
-const createProductReview = async (req, res, next) => {    
-    const { productID, customerID, comment, rate } = req.body;
+
+const postProductReview = async (req, res, next) => {    
+
     try {
-        let comment = []
-        let rate = 0;
-        const newProductReview = await createNewProductReview({
-            custemerID: custemerID,
-            productID: productID
-        });
+        const productID = req.params.id
 
-        await updateProductReviewAverageRate(productID);
-        
-        res.json({
-            customerID: customerID,
-            producId: productID,
-            rate: newProductReview.rate,
-            comment: newProductReview.comment
-        });
+        const data = {
+            productID: productID,
+            customerID: req.body.customerID,
+            feedback: req.body.feedback,
+            rate: req.body.rate
+        }
+
+        res.json(data)
+
+        res.send('Thanh Cong')
     }
     catch (error) {
         next(error);
@@ -27,21 +23,16 @@ const createProductReview = async (req, res, next) => {
 };
 
 
-const getProductReviewList = async (req, res, next) => {
-    const productID = req.productID;
-    try {
-        const productReviewList = await productReviewList(productID);
-        // productReviewList.forEach(async e => {
-        //     const firstProductReview = await productReviewList(productID);
-        //     e.firstProduct = firstProduct;
-        // });
-        res.json(productReviewList);
-    }
-    catch (e) {
-        next(e);
-    }
+const getProductReviewList = async (productID) => {
+    const exist = await productReviewModel.exists({ productID: productID })
+    if (!exist)
+        throw new APIError(httpStatus.BAD_REQUEST, "no feedback")
+    const list = await productReviewModel.findOne({ productID: productID });
+    if (!list)
+        throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
+    return list;
 };
 
 export default {
-    createProductReview, getProductReviewList
+    postProductReview, getProductReviewList
 }

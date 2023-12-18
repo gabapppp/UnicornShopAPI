@@ -2,8 +2,10 @@ import express from 'express';
 import authRoute from './authRoute.js';
 import userRoute from './userRoute.js';
 import orderRoute from './orderRoute.js';
-
 import adminRoute from './admin/index.js';
+import productReviewRoute from './productReviewRoute.js';
+import { productReviewList } from '../services/productReviewService.js';
+
 const router = express.Router();
 /***
  * @openapi
@@ -36,7 +38,7 @@ router.use('/auth', authRoute); //add routes
 router.use('/user', userRoute);
 router.use('/order', orderRoute);
 
-
+router.use('/productReview',productReviewRoute);
 
 router.use('/admin', adminRoute);
 export default router;
