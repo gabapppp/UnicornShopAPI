@@ -100,17 +100,6 @@ const checkCoupon = async (req, res, next) => {
   }
 };
 
-const createCou = async (req, res, next) => {
-    const id = req.params.id
-
-    const coupon = await CouponModel.findOne({_id: id})
-
-    coupon.max_uses = parseInt(CouponModel.max_uses) - 1
-
-    coupon.save()
-      
-      res.json("Complete");
-}
 
 
 
