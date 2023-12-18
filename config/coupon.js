@@ -6,6 +6,11 @@ const couponDescription = {
     PERCENTAGE: "Percentage sales"
 }
 
+const couponType = {
+    VOUCHER: "Voucher",
+    DISCOUNT: "Discount",
+    SALE: "Sales",
+}
 export {
-    couponDescription
+    couponDescription, couponType
 }

@@ -1,43 +1,36 @@
 import express from 'express'
-import adminController from '../controllers/couponAdminController.js';
-import controller from '../../controllers/authAdminController.js';
-import trimRequest from 'trim-request';
-import schemas from '../../validations/authValidations.js';
+import trimRequest from "trim-request";
+import { isStaffUser } from "../../middlewares/isStaffUser.js";
+import couponAdminController from '../../controllers/couponAdminController.js';
+import validate from "../../utils/yupValidations.js";
+import schemas from '../../validations/couponValidation.js';
+import { trim } from 'lodash';
 
 const router = express.Router()
 
+router.route("/").post(
+    trimRequest.all, isStaffUser, validate(schemas.createSchema), couponAdminController.createCoupon
+);
 
-router
-    .route('/login')
-    .post(trimRequest.all, validate(schemas.loginSchema), controller.login);
+router.route("/list").get(
+    trimRequest.all, isStaffUser, couponAdminController.getCouponList
+);
 
-router
-    .route('/logout')
-    .post(trimRequest.all, validate(schemas.logoutSchema), controller.logout);
+router.route("/:id").get(
+    trimRequest.all, isStaffUser, couponAdminController.getDetailCoupon
+);
 
-router
-    .route('/refresh-token')
-    .post(trimRequest.all, validate(schemas.refreshTokenSchema), controller.refreshToken);
+router.route("/:id").put(
+    trimRequest.all, isStaffUser, couponAdminController.updateCoupon
+);
 
-// coupon admin routes
-router
-    .route('/admin/coupons')
-    .post(adminController.createCoupon)
-    .get(adminController.getAllCoupons);
+router.route(":/type/checking").get(
+    trimRequest.all, isStaffUser, couponAdminController.checkCoupon
+);
 
-router
-    .route('/admin/coupons/:id')
-    .get(adminController.getCoupon)
-    .put(adminController.updateCoupon)
-    .delete(adminController.deleteCoupon);
+router.route(":/id").delete(
+    trimRequest.all, isStaffUser, couponAdminController.deleteCoupon
+);
 
-// coupon user routes
-router
-    .route('/coupons/apply')
-    .post(controller.applyCoupon);
-
-router
-    .route('/coupons/validate')
-    .post(controller.validateCoupon);
 
 export default router

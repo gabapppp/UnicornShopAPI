@@ -1,192 +1,70 @@
-import { CouponModel } from "../models/index.js";
-import OrderModel from '../models/OrderModel';
+import { CouponModel, OrderModel } from "../models/index.js";
 import httpStatus from 'http-status';
 import APIError from '../utils/APIError.js';
 
-const createCouponList = async (coupon) => {
-    const oldCoupon = await CouponModel.findOne({ couponcode: coupon.couponcode.toLowerCase() });
-    if (oldCoupon)
-        throw new APIError(httpStatus.BAD_REQUEST, "Coupon already exists.")
-    const newCoupon = await CouponModel.create(coupon);
-    if (!newCoupon)
-        throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!")
+const createnewCoupon = async (Coupon) => {
+    const existCoupon = await CouponModel.findOne ({
+      code: Coupon.code,
+      name: Coupon.name,
+      type: Coupon.type,
+    });
+    if(existCoupon)
+      throw new APIError(httpStatus.BAD_REQUEST, "Coupon already exists.")
+    const newCoupon = await CouponModel.create(Coupon);
+    if(!newCoupon)
+      throw new APIError(httpStatus.BAD_REQUEST, "Server needed a break!")
+    Coupon.max_uses = parseInt(CouponModel.max_uses) - 1
     return newCoupon;
+};
+
+const fetchCouponList = async (page, size) => {
+  const limit = size ? +size :5;
+  const offset = page ? page * limit : 0;
+  const list = CouponModel.paginate({}, {offset: offset, limit: limit}). then({});
+  return list;
 }
 
-const getAllCoupons = async (type) => {
-  let filter = {};
-  if (type){
-    filter = {
-      type: type
-    };
-  }
-  
-  const validFilters = ['name', 'type', 'maxUses'];
-  // Input validation
-  if(!filter || Object.keys(filter).some(f => !validFilters.includes(f))) {
-    throw Error('Invalid filter'); 
-  }
+const fetchupdateCoupon = async (code, max_uses, type, description) => {
+  const Oldcoupon = await CouponModel.findOne({code: code, max_uses: max_uses, type: type, description: description});
+  if (!Oldcoupon)
+    throw new APIError(httpStatus.BAD_REQUEST, "Coupon not found")
+  const newCoupon = await CouponModel.updateOne({code: code, max_uses: max_uses, type: type, description: description});
+  return newCoupon;
+};
 
-    try {
-  
-      const coupons = await CouponModel.findOne({filter});
-      
-      if(!coupons) {
-        throw new APIError("No coupons found");
-      }
-      return coupons;
-  
-    } catch (error) {
-      
-      throw error;
-  
-    }
-  
-  }
+const fetchdeleteCoupon = async (code, name, type, max_uses) => {
+  const Oldcoupon = await CouponModel.findOne({code: code, name: name, type: type, max_uses: max_uses});
+  if(!Oldcoupon)
+   throw new APIError(httpStatus.BAD_REQUEST, "Coupon not found")
+  const newCoupon = await CouponModel.deleteOne({code: code, name: name, type: type, max_uses: max_uses});
+  return newCoupon;
+};
 
-const getCoupon = async () => {
-    try {
-      const coupon = await CouponModel.findById();
-
-      if(!coupon) {
-        throw new APIError("Coupon not found");
-      }
-      
-      return coupon;
-  
-    } catch (error) {
-      throw error;
-    }
-  }
-
-const updateCoupon = async (couponId, updatedCoupon) => {
-
-    try {
-  
-      // Kiểm tra couponId
-      if(!couponId) throw new Error('Coupon id is required');
-  
-      // Validation coupon đầu vào
-      //...
-  
-      // Tìm coupon cần update
-      const coupon = await CouponModel.findById(couponId);
-  
-      if(!coupon) {
-        throw new Error('Coupon not found');
-      }
-  
-      // Cập nhật thông tin coupon
-      Object.assign(coupon, updatedCoupon);
-  
-      // Lưu lại 
-      await coupon.save();
-  
-      // Trả về coupon
-      return coupon;
-  
-    } catch (error) {
-  
-      throw error;
-  
-    }
-  
+const fetchDetailCoupon = async(couponID) => {
+  const coupon = await CouponModel.findOne({couponID: couponID});
+  if (!coupon)
+    throw new APIError(httpStatus.BAD_REQUEST, "Coupon not found")
+  return coupon;
 }
 
-const deleteCoupon = async (couponId) => {
-    try {
-  
-      // Validate couponId
-      if(!couponId) throw new Error('Coupon id is required');
-  
-      // Tìm coupon cần xoá
-      const coupon = await CouponModel.findById(couponId);
-  
-      if(!coupon) {
-        throw new Error('Coupon not found'); 
-      }
-  
-      // Xoá coupon
-      await coupon.remove();
-  
-      // Trả kết quả
-      return {message: 'Coupon deleted successfully'};
-  
-    } catch (error) {
-  
-      throw error;
-  
-    }
-  }
+const fetchcheckCoupon = async(code, customerID, couponID) => {
+  const coupon = await CouponModel.findOne({code: code});
+  if(!coupon)
+    throw new APIError(httpStatus.BAD_REQUEST, "Coupon not found")
+  const checkCouponID = await CouponModel.findOne({couponID: couponID});
+  const checkCustomerID = await OrderModel.findOne({customerID: customerID});
+  if (checkCouponID && checkCustomerID)
+    throw new APIError(httpStatus.BAD_REQUEST, "Coupon has been used")
+  return coupon;
+}
 
-  const isValidCoupon = async (couponCode) => {
+const fetchcreataCoupon = async() => {
 
-    try {
-      
-      // Validate couponCode
-      if(!couponCode) throw new Error('Coupon code is required');
-  
-      // Tìm coupon theo mã
-      const coupon = await CouponModel.findOne({
-        couponCode: couponCode
-      });
-  
-      if(!coupon) {
-        return false;
-      }
-  
-      // Kiểm tra hạn sử dụng
-      if(new Date() > coupon.expiresAT) {
-        return false;
-      }
-  
-      // Kiểm tra số lượng sử dụng
-      if(coupon.uses >= coupon.max_uses) {
-        return false;
-      }
-  
-      return true;
-  
-    } catch (error) {
-      throw error;
-    }
-  
-  }
+}
 
-  const applyCoupon = async (orderId, couponCode) => {
 
-    try {
-  
-      // Validate
-      if(!orderId) throw 'Order ID is required';
-      if(!couponCode) throw 'Coupon code is required';
-      
-      // Kiểm tra coupon có hợp lệ
-      const isValid = await isValidCoupon(couponCode);
-      if(!isValid) throw 'Coupon is invalid';
-  
-      // Tìm đơn hàng
-      const order = await OrderModel.findById(orderId);
-      if(!order) throw 'Order not found';
-  
-      // Áp dụng coupon
-      order.couponCode = couponCode;
-  
-      // Tính toán giảm giá
-      //...
-  
-      // Cập nhật đơn hàng
-      await order.save();
-  
-      return order;
-  
-    } catch (error) {
-      throw error;
-    }
-  
-  }
 
 
 export {
-    createCouponList, getAllCoupons, getCoupon, updateCoupon, deleteCoupon, isValidCoupon, applyCoupon
+   createnewCoupon , fetchDetailCoupon, fetchupdateCoupon, fetchdeleteCoupon, fetchcheckCoupon, fetchCouponList
 }

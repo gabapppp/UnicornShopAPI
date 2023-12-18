@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\config",
+    "\\controllers",
+    "\\middlewares",
+    "\\models",
+    "\\routes",
+    "\\routes\\admin",
+    "\\services",
+    "\\utils",
+    "\\validations"
+  ],
+  "SelectedNode": "\\config\\coupon.js",
+  "PreviewInSolutionExplorer": false
+}
