@@ -14,6 +14,6 @@ const paymentSchema = new mongoose.Schema({
 
 //Check coupon before save
 
-const PaymentModela = mongoose.model("Payment", paymentSchema);
+const PaymentModel = mongoose.model("Payment", paymentSchema);
 
 export default PaymentModel;

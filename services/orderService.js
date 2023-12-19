@@ -19,11 +19,14 @@ const createNewOrder = async (order) => {
 
 const fetchOrderListByUserID = async (customerID) => {
     const list = await OrderModel.find({ customerID: customerID });
+    if (!list)
+        throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
     return list;
 };
 
-const fetchOrderByID = async (orderID) => {
-    const order = await OrderModel.findById(orderID);
+const fetchOrderByID = async (orderID, userId) => {
+    const order = await OrderModel.findOne({ _id: orderID, customerRef: userId });
+    console.log(order)
     if (!order)
         throw new APIError(httpStatus.BAD_REQUEST, "Product not found");
     return order;
@@ -51,8 +54,8 @@ const createOrderItem = async (item) => {
     return newItem;
 };
 
-const fetchOrderItemByOrderID = async (orderID) => {
-    const order = await OrderModel.findById(orderID);
+const fetchOrderItemByOrderID = async (orderID, userId) => {
+    const order = await OrderModel.findOne({ _id: orderID, userId });
     if (!order)
         throw new APIError(httpStatus.BAD_REQUEST, "Order not found");
     const listItem = await OrderItemModel.find({ orderID: orderID });
