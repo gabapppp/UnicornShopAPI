@@ -8,8 +8,6 @@ const couponSchema = new mongoose.Schema({
     description: { type: String },
     type: { type: String, enum: ["voucher, discount, sale"] },
     max_uses: { type: Number },
-    expiresAT: { type: Date },
-    startsAT: { type: Date },
 
 }, { timestamps: true })
 

@@ -2,26 +2,26 @@ import { CouponModel, OrderModel } from "../models/index.js";
 import httpStatus from 'http-status';
 import APIError from '../utils/APIError.js';
 
-const createnewCoupon = async (res) => {
+const createnewCoupon = async (coupon) => {
     const existCoupon = await CouponModel.findOne ({
-      code: Coupon.code,
-      name: Coupon.name,
-      type: Coupon.type,
+      code: coupon.code,
+      name: coupon.name,
+      type: coupon.type,
     });
     if(existCoupon)
       throw new APIError(httpStatus.BAD_REQUEST, "Coupon already exists.")
-    const newCoupon = await CouponModel.create(Coupon);
+    const newCoupon = await CouponModel.create(coupon);
     if(!newCoupon)
       throw new APIError(httpStatus.BAD_REQUEST, "Server needed a break!")
-    Coupon.max_uses = parseInt(CouponModel.max_uses) - 1
-    return newCoupon;
+    coupon.max_uses = parseInt(coupon.max_uses) - 1
+    return JSON.stringify(newCoupon);
 };
 
 const fetchCouponList = async (page, size) => {
   const limit = size ? +size :5;
   const offset = page ? page * limit : 0;
   const list = CouponModel.paginate({}, {offset: offset, limit: limit}). then({});
-  return list;
+  return JSON.stringify(list);
 }
 
 const fetchupdateCoupon = async (code, max_uses, type, description) => {
@@ -29,7 +29,7 @@ const fetchupdateCoupon = async (code, max_uses, type, description) => {
   if (!Oldcoupon)
     throw new APIError(httpStatus.BAD_REQUEST, "Coupon not found")
   const newCoupon = await CouponModel.updateOne({code: code, max_uses: max_uses, type: type, description: description});
-  return newCoupon;
+  return JSON.stringify(newCoupon);
 };
 
 const fetchdeleteCoupon = async (code, name, type, max_uses) => {
@@ -37,14 +37,14 @@ const fetchdeleteCoupon = async (code, name, type, max_uses) => {
   if(!Oldcoupon)
    throw new APIError(httpStatus.BAD_REQUEST, "Coupon not found")
   const newCoupon = await CouponModel.deleteOne({code: code, name: name, type: type, max_uses: max_uses});
-  return newCoupon;
+  return JSON.stringify(newCoupon);
 };
 
 const fetchDetailCoupon = async(couponID) => {
   const coupon = await CouponModel.findOne({couponID: couponID});
   if (!coupon)
     throw new APIError(httpStatus.BAD_REQUEST, "Coupon not found")
-  return coupon;
+  return JSON.stringify(coupon);
 }
 
 const fetchcheckCoupon = async(code, customerID, couponID) => {
@@ -55,7 +55,7 @@ const fetchcheckCoupon = async(code, customerID, couponID) => {
   const checkCustomerID = await OrderModel.findOne({customerID: customerID});
   if (checkCouponID && checkCustomerID)
     throw new APIError(httpStatus.BAD_REQUEST, "Coupon has been used")
-  return coupon;
+  return JSON.stringify(coupon);
 }
 
 

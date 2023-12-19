@@ -12,7 +12,8 @@ const createCoupon = async (req, res, next) => {
       type: type,
       max_uses: max_uses,
     });
-    res.send(newCoupon);
+    res.type('application/json');
+    res.json(JSON.stringify (newCoupon));
   }
 
   catch (error){
@@ -25,7 +26,7 @@ const getCouponList = async (req, res, next) => {
   try {
     console.log(page)
     const couponList = await fetchCouponList(page,size);
-    res.json(couponList);
+    res.json(JSON.stringify(couponList));
   }
   catch(error) {
     next (error);
@@ -37,7 +38,7 @@ const getDetailCoupon = async (req, res, next) => {
       const id  = req.params.id
   try {
     const coupon = await fetchDetailCoupon(id);
-    res.json(coupon);
+    res.json(JSON.stringify(coupon));
   }
   catch(error){
     next (error);
@@ -56,7 +57,7 @@ const updateCoupon = async (req, res, next) => {
         type: type,
         description: description,
       }); as
-      res.json(newCoupon);
+      res.json(JSON.stringify(newCoupon));
     }
 
     catch (error) {
@@ -75,7 +76,7 @@ const deleteCoupon = async (req, res, next) => {
       type: type,
       name: name,
     }); as
-    res.json(newCoupon);
+    res.json(JSON.stringify(newCoupon));
   }
 
   catch (error) {
@@ -92,7 +93,7 @@ const checkCoupon = async (req, res, next) => {
       CustomerID: CustomerID,
       couponID: couponID,
     }); as
-    res.json(checkCoupon);
+    res.json(JSON.stringify(checkCoupon));
   }
   catch (error){
     next(error);

@@ -1,5 +1,5 @@
 import express from 'express'
-import trimRequest from "trim-request";
+import trimRequest from 'trim-request';
 import { isStaffUser } from "../../middlewares/isStaffUser.js";
 import Controller from '../../controllers/couponAdminController.js';
 import validate from "../../utils/yupValidations.js";
