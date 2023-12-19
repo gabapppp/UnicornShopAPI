@@ -8,7 +8,6 @@ const couponSchema = new mongoose.Schema({
     description: { type: String },
     type: { type: String, enum: ["voucher, discount, sale"] },
     max_uses: { type: Number },
-
 }, { timestamps: true })
 
 couponSchema.plugin(mongoosePaginate);

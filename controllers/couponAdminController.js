@@ -18,7 +18,7 @@ const createCoupon = async (req, res, next) => {
   catch (error){
     next(error);
   }
-}
+};
 
 const getCouponList = async (req, res, next) => {
   const {page, size} = req.query;

@@ -22,7 +22,7 @@ const fetchCouponList = async (page, size) => {
   const offset = page ? page * limit : 0;
   const list = CouponModel.paginate({}, {offset: offset, limit: limit}). then({});
   return JSON.stringify(list);
-}
+};
 
 const fetchupdateCoupon = async (code, max_uses, type, description) => {
   const Oldcoupon = await CouponModel.findOne({code: code, max_uses: max_uses, type: type, description: description});
@@ -45,7 +45,7 @@ const fetchDetailCoupon = async(couponID) => {
   if (!coupon)
     throw new APIError(httpStatus.BAD_REQUEST, "Coupon not found")
   return JSON.stringify(coupon);
-}
+};
 
 const fetchcheckCoupon = async(code, customerID, couponID) => {
   const coupon = await CouponModel.findOne({code: code});
@@ -56,7 +56,7 @@ const fetchcheckCoupon = async(code, customerID, couponID) => {
   if (checkCouponID && checkCustomerID)
     throw new APIError(httpStatus.BAD_REQUEST, "Coupon has been used")
   return JSON.stringify(coupon);
-}
+};
 
 
 
