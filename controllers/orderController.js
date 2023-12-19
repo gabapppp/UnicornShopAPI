@@ -4,10 +4,11 @@ import { fetchProductDetail, descreaseProductStockByID } from "../services/produ
 import {
     createNewOrder, fetchOrderListByUserID, fetchOrderByID, updateOrderStatusToCancel, createOrderItem, fetchOrderItemByOrderID, fetchFirstOrderItem
 } from "../services/orderService.js";
+import { createPayment } from "../services/paymentService.js";
 
 const createOrder = async (req, res, next) => {
     const userId = req.authData.userId;
-    const { fullname, phone, address, items } = req.body;
+    const { fullname, phone, address, items, couponCode } = req.body;
     try {
         let newOrderItemList = []
         let itemCnt = 0;
@@ -31,6 +32,7 @@ const createOrder = async (req, res, next) => {
             descreaseProductStockByID(element.productID, element.qty);
             newOrderItemList.push(newOrderItem);
         });
+        const payment = await createPayment(couponCode)
         res.json({
             orderID: newOrder._id,
             customerName: user.fullname,

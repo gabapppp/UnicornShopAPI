@@ -2,7 +2,8 @@ import express from 'express';
 import authRoute from './authRoute.js';
 import userRoute from './userRoute.js';
 import orderRoute from './orderRoute.js';
-
+import paymentRoute from './paymentRoute.js';
+import productRoute from './productRoute.js';
 import adminRoute from './admin/index.js';
 const router = express.Router();
 /***
@@ -35,7 +36,8 @@ router.get('/status', (req, res) => {
 router.use('/auth', authRoute); //add routes
 router.use('/user', userRoute);
 router.use('/order', orderRoute);
-
+router.use('/payment', paymentRoute);
+router.use('/product', productRoute);
 
 
 router.use('/admin', adminRoute);
