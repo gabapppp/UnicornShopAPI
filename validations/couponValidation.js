@@ -1,5 +1,5 @@
 import yup, { object } from "yup";
-import { couponDescription, couponType } from "../config/coupon";
+import { couponDescription, couponType } from "../config/coupon.js";
 const schemas = {
   createSchema: yup.object({
     body: yup.object({

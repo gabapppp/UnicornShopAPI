@@ -1,6 +1,7 @@
 import express from 'express';
 import authRoute from './authRoute.js';
 import productRoute from './productRoute.js';
+import couponRoute from './couponRoute.js';
 //import userRoute from './userRoute.js';
 
 const router = express.Router();
@@ -34,6 +35,7 @@ router.get('/status', (req, res) => {
 
 router.use('/auth', authRoute); //add routes
 router.use('/product', productRoute);
+router.use('/coupon', couponRoute);
 //router.use('/user', userRoute)
 
 export default router;

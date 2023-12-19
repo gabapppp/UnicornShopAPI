@@ -1,4 +1,4 @@
-import { createnewCoupon, fetchCouponDetail, fetchupdateCoupon, fetchdeleteCoupon, fetchcheckCoupon, fetchCouponList} from "../services/couponAdminService";
+import { createnewCoupon, fetchDetailCoupon, fetchupdateCoupon, fetchdeleteCoupon, fetchcheckCoupon, fetchCouponList} from "../services/couponAdminService.js";
 
 const createCoupon = async (req, res, next) => {
 
@@ -12,13 +12,12 @@ const createCoupon = async (req, res, next) => {
       type: type,
       max_uses: max_uses,
     });
-    res.json(newCoupon);
+    res.send(newCoupon);
   }
 
   catch (error){
     next(error);
   }
-
 }
 
 const getCouponList = async (req, res, next) => {
@@ -37,7 +36,7 @@ const getDetailCoupon = async (req, res, next) => {
 
       const id  = req.params.id
   try {
-    const coupon = await fetchCouponDetail(id);
+    const coupon = await fetchDetailCoupon(id);
     res.json(coupon);
   }
   catch(error){
@@ -99,8 +98,6 @@ const checkCoupon = async (req, res, next) => {
     next(error);
   }
 };
-
-
 
 
 export default {

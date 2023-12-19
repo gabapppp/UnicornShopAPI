@@ -16,29 +16,29 @@ const couponSchema = new mongoose.Schema({
 couponSchema.plugin(mongoosePaginate);
 
 couponSchema.pre('save', function(next){
-    const doc = this;
-    try {
-        let randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
-        async function checkAndCreateID() {
-            const exist = await CouponModel.findOne({ couponID: randomNumber })
-            if (!exist) {
-                doc.couponID = randomNumber;
-                next();
-            };
-        }
+const doc = this;
+try {
+  let randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
+     async function checkAndCreateID() {
+        const exist = await CouponModel.findOne({ couponID: randomNumber })
+        if (!exist) {
+             doc.couponID = randomNumber;
+             next();
+          };
+       }
     
-        const timeoutDuration = 5000;
+       const timeoutDuration = 5000;
         const timeout = setTimeout(() => {
             clearTimeout(timeout);
-            next(new Error('Timeout occurred while creating data'));
+           next(new Error('Timeout occurred while creating data'));
         }, timeoutDuration);
     
-        checkAndCreateID();
+       checkAndCreateID();
     }
     catch (error) {
         next(error)
     }
-});
+ });
 
 const CouponModel = mongoose.model('coupon', couponSchema)
 export default CouponModel

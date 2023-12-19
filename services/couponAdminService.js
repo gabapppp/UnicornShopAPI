@@ -2,7 +2,7 @@ import { CouponModel, OrderModel } from "../models/index.js";
 import httpStatus from 'http-status';
 import APIError from '../utils/APIError.js';
 
-const createnewCoupon = async (Coupon) => {
+const createnewCoupon = async (res) => {
     const existCoupon = await CouponModel.findOne ({
       code: Coupon.code,
       name: Coupon.name,
@@ -57,11 +57,6 @@ const fetchcheckCoupon = async(code, customerID, couponID) => {
     throw new APIError(httpStatus.BAD_REQUEST, "Coupon has been used")
   return coupon;
 }
-
-const fetchcreataCoupon = async() => {
-
-}
-
 
 
 
