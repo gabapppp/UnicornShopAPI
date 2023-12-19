@@ -23,22 +23,49 @@ const fetchProductList = async (page, size) => {
 };
 
 const fetchProductDetail = async (productID) => {
+    const exist = await ProductModel.exists({ productID: productID })
+    if (!exist)
+        throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
     const product = await ProductModel.findOne({ productID: productID });
     if (!product)
-        throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
+        throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
     return product;
 };
 
-const updateProductByID = async (productID) => {
+const updateProductByID = async (productID, name, size, price, stock,) => {
     const oldProduct = await ProductModel.findOne({ productID: productID });
     if (!oldProduct)
-        throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
-    const newProduct = await ProductModel.updateOne({ productID: productID }, {});
+        throw new APIError(httpStatus.BAD_REQUEST, "Product not found");
+    if (name == undefined)
+        name = oldProduct.name;
+    if (size == undefined)
+        size = oldProduct.size;
+    if (price == undefined)
+        price = oldProduct.price;
+    if (stock == undefined)
+        stock == oldProduct.stock;
+    const newProduct = await ProductModel.updateOne({ productID: productID }, {
+        size: size,
+        name: name,
+        stock: stock,
+        price: price
+    });
     return newProduct;
 };
 
+const descreaseProductStockByID = async (productID, qty) => {
+    const oldProduct = await ProductModel.findOne({ productID: productID });
+    if (!oldProduct)
+        throw new APIError(httpStatus.BAD_REQUEST, "Product not found");
+    const newStock = oldProduct.stock - qty;
+    const newProduct = await ProductModel.updateOne({ productID: productID }, { stock: newStock });
+    if (!newProduct)
+        throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
+    return;
+};
+
 export {
-    createNewProduct, fetchProductList, fetchProductDetail, updateProductByID
+    createNewProduct, fetchProductList, fetchProductDetail, updateProductByID, descreaseProductStockByID
 }
 
 

@@ -4,6 +4,7 @@ const orderStatus = {
     SUCCESS: 'Success',
     INTRASIT: 'In trasit',
     DELIVERED: 'Delivered',
+    PAYED: 'Be Payed'
 };
-  
+
 export { orderStatus };

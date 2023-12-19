@@ -1,13 +1,9 @@
 import mongoose from "mongoose";
 
-const itemSchema = new mongoose.Schema({
-    orderID: { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: true },
-    productID: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
-});
-
 const orderItemSchema = new mongoose.Schema({
-    item: { type: itemSchema, unique: true },
-    productName: { type: Number, required: true },
+    orderID: { type: String, ref: "Order", required: true },
+    productID: { type: Number, ref: "Product", required: true },
+    productName: { type: String, required: true },
     productPrice: { type: Number, required: true },
     qty: { type: Number, required: true }
 });
