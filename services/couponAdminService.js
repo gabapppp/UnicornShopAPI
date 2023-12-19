@@ -18,7 +18,7 @@ const createnewCoupon = async (coupon) => {
 };
 
 const fetchCouponList = async (page, size) => {
-  const limit = size ? +size :5;
+  const limit = size ? + size : 5;
   const offset = page ? page * limit : 0;
   const list = CouponModel.paginate({}, {offset: offset, limit: limit}). then({});
   return JSON.stringify(list);

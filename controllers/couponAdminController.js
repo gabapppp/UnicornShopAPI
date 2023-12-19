@@ -12,7 +12,6 @@ const createCoupon = async (req, res, next) => {
       type: type,
       max_uses: max_uses,
     });
-    res.type('application/json');
     res.json(JSON.stringify (newCoupon));
   }
 
@@ -64,7 +63,7 @@ const updateCoupon = async (req, res, next) => {
       next(error);
     }
 };
-    
+
 
 const deleteCoupon = async (req, res, next) => {
 
