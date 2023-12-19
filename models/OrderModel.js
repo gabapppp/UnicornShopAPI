@@ -10,10 +10,6 @@ const orderSchema = new mongoose.Schema({
     address: { type: String, required: true },
     status: { type: String, enum: [PENDING, CANCELED, SUCCESS, INTRASIT, DELIVERED], default: PENDING },
     trackingID: { type: String, default: null },
-    itemsList: {
-        ref: "orderitems",
-        type: String
-    },
     customerRef: { type: String, required: true, },
 }, { timestamps: true })
 
