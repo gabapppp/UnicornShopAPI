@@ -7,7 +7,8 @@ const schemas = {
       code: yup.string().required(),
       couponDescription: yup.string().required("Please select a Desription").oneOf(Object.values(couponDescription)),
       type: yup.string().required("Please select a type").oneOf(Object.values(couponType)),
-      max_uses: yup.number().required("Please enter a value for max coupon").integer("Please enter a decimal")
+      max_uses: yup.number().required("Please enter a value for max coupon").integer("Please enter a decimal"),
+      
     })
   })
 

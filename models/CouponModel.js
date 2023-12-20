@@ -10,7 +10,7 @@ const couponSchema = new mongoose.Schema({
     max_uses: { type: Number },
     expiresAT: { type: Date },
     startsAT: { type: Date },
-}, { timestamps: true })
+}, { timestamps: true });
 
 couponSchema.plugin(mongoosePaginate);
 
@@ -39,5 +39,5 @@ try {
     }
  });
 
-const CouponModel = mongoose.model('coupon', couponSchema)
-export default CouponModel
+const CouponModel = mongoose.model('coupon', couponSchema);
+export default CouponModel;

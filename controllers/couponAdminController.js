@@ -11,6 +11,7 @@ const createCoupon = async (req, res, next) => {
       description: description,
       type: type,
       max_uses: max_uses,
+      
     });
     res.json(JSON.stringify (newCoupon));
   }

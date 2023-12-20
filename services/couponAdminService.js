@@ -13,7 +13,7 @@ const createnewCoupon = async (coupon) => {
     const newCoupon = await CouponModel.create(coupon);
     if(!newCoupon)
       throw new APIError(httpStatus.BAD_REQUEST, "Server needed a break!")
-    coupon.max_uses = parseInt(coupon.max_uses) - 1
+    coupon.max_uses = parseInt(coupon.max_uses) - 1;
     return JSON.stringify(newCoupon);
 };
 
