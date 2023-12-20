@@ -2,7 +2,7 @@ import mongoose, {Schema} from "mongoose";
 import mongoosePaginate from 'mongoose-paginate-v2';
 
 const couponSchema = new mongoose.Schema({
-    code: { type: String, required: true },
+    code: { type: String},
     couponID: {type: Schema.Types.ObjectId, required:true},
     name: {type: String},
     description: { type: String },
@@ -17,11 +17,12 @@ couponSchema.plugin(mongoosePaginate);
 couponSchema.pre('save', function(next){
 const doc = this;
 try {
-  let randomNumber = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
+   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let randomCode = Math.floor(Math.random() * characters.length);
      async function checkAndCreateID() {
-        const exist = await CouponModel.findOne({ couponID: randomNumber })
+        const exist = await CouponModel.findOne({ code: randomCode })
         if (!exist) {
-             doc.couponID = randomNumber;
+             doc.code = randomCode;
              next();
           };
        }
