@@ -17,12 +17,14 @@ import { OAuth2Client } from 'google-auth-library';
 
 
 const register = async (req, res, next) => {
-  const { username, email, password } = req.body
+  const { username, fullname, email, phone, password } = req.body
   try {
     const hashedPassword = await bcryptjs.hash(password, 10);
     const newUser = await createNewUser({
       username: username,
+      fullname: fullname,
       email: email,
+      phone: phone,
       password: hashedPassword,
     });
     const tokens = await generateAuthTokens(newUser)

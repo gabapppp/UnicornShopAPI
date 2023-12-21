@@ -1,7 +1,7 @@
 import { createNewProduct, fetchProductList, fetchProductDetail, updateProductByID } from "../services/productService.js";
 
 const createProduct = async (req, res, next) => {
-    const { name, color, image, category, department, size, description, price, stock } = req.body;
+    const { name, color, image, category, department, sizeStock, description, price, stock } = req.body;
     try {
         const newProduct = await createNewProduct({
             name: name,
@@ -9,7 +9,7 @@ const createProduct = async (req, res, next) => {
             image: image,
             category: category,
             department: department,
-            size: size,
+            sizeStock: sizeStock,
             description: description,
             price: price,
             stock: stock

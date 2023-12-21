@@ -8,7 +8,7 @@ const schemas = {
         .required('please enter your password')
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Must Contain 8 Characters, 1 Uppercase, 1 Lowercase, 1 Number and 1 special Character"
+          "Must Contain 8 Characters, 1 Uppercase, 1 Lowercase, 1 Number and 1 special Character"
         ),
     }),
   }),
@@ -27,12 +27,15 @@ const schemas = {
 
   registerSchema: yup.object({
     body: yup.object({
+      username: yup.string().required(),
+      fullname: yup.string().required(),
       email: yup.string().required(),
+      phone: yup.string().required(),
       password: yup.string()
-      .required('please enter your password')
+        .required('please enter your password')
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Must Contain 8 Characters, 1 Uppercase, 1 Lowercase, 1 Number and 1 special Character"
+          "Must Contain 8 Characters, 1 Uppercase, 1 Lowercase, 1 Number and 1 special Character"
         ),
     }),
   }),
@@ -41,10 +44,10 @@ const schemas = {
     body: yup.object({
       password: yup.string().min(3).max(128).required(),
       newPassword: yup.string()
-      .required('please enter your password')
+        .required('please enter your password')
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Must Contain 8 Characters, 1 Uppercase, 1 Lowercase, 1 Number and 1 special Character"
+          "Must Contain 8 Characters, 1 Uppercase, 1 Lowercase, 1 Number and 1 special Character"
         ),
 
       newPasswordConfirm: yup
@@ -56,9 +59,9 @@ const schemas = {
 
   googleUserSchema: yup.object({
     body: yup.object({
-      token : yup.string().required()
+      token: yup.string().required()
     })
   })
 }
- 
+
 export default schemas;

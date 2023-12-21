@@ -8,15 +8,19 @@ const productSchema = new mongoose.Schema({
     productID: { type: Number, unique: true },
     name: { type: String, required: true },
     color: { type: String },
-    image: { type: String },
+    image: [{ name: String, imageUrl: String }],
     category: { type: String, enum: [TEES, ACCESSORIES, POLOS, SWEETSHIRTS_AND_HOODLES, PANTS, JACKETS, SWEATERS, SHORTS, SWIMWEAR, CASUAL_SHIRT, LOUGE_AND_UNDERWEAR] },
     department: { type: String, enum: [MALE, KID, FEMALE, BIG_AND_TALL, UNISEX] },
-    size: {
-        type: String, enum: ["XS", "S", "M", "L", "XL", "XXL"], required: true
-    },
+    sizeStock: [{
+        size: {
+            type: String, enum: ["XS", "S", "M", "L", "XL", "XXL"], required: true
+        },
+        stock: {
+            type: Number, default: 0
+        }
+    }],
     description: { type: String },
     price: { type: Number, required: true },
-    stock: { type: Number, default: 0 },
     rateAvg: { type: Number }
 }, { timestamps: true });
 
@@ -50,4 +54,4 @@ productSchema.pre('save', function (next) {
 
 const ProductModel = mongoose.model("product", productSchema);
 
-export default ProductModel;
+export default ProductModel;	
