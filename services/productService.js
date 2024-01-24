@@ -53,9 +53,6 @@ const fetchProductList = async (page, size) => {
 };
 
 const fetchProductDetail = async (productID) => {
-    const exist = await ProductModel.exists({ productID: productID })
-    if (!exist)
-        throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
     const product = await ProductModel.findOne({ productID: productID });
     if (!product)
         throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");

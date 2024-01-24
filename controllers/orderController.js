@@ -32,7 +32,6 @@ const createOrder = async (req, res, next) => {
             descreaseProductStockByID(element.productID, element.qty);
             newOrderItemList.push(newOrderItem);
         });
-        const payment = await createPayment(couponCode)
         res.json({
             orderID: newOrder._id,
             customerName: user.fullname,
@@ -54,12 +53,11 @@ const getOrderDetail = async (req, res, next) => {
     const { orderID } = req.params;
     try {
         const order = await fetchOrderByID(orderID);
-        console.log(order)
         if (userId != order.customerRef)
             res.json({ messgae: "order not found" });
         else {
             const itemList = await fetchOrderItemByOrderID(orderID);
-            if (order.status == orderStatus.PENDING) {
+            if (order.status === orderStatus.PENDING) {
                 res.json({
                     orderID: order._id,
                     username: order.username,

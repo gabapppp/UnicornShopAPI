@@ -12,9 +12,9 @@ const getProductList = async (req, res, next) => {
 };
 
 const getProductDetail = async (req, res, next) => {
-    const { productID } = req.query;
+    const { id } = req.params;
     try {
-        const product = await fetchProductDetail(productID);
+        const product = await fetchProductDetail(id);
         res.json(product);
     }
     catch (e) {
