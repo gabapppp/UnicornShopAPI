@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
-import { orderStatus } from "../config/orderStatus.js";
 
 const orderItemSchema = new mongoose.Schema({
-    productId: { type: String }
+    orderId: { type: String },
+    productId: { type: String },
+    qty: { type: Number },
+    price: { type: Number }
 }, { timestamps: true })
 
 const OrderItemModel = mongoose.model('OrderItem', orderItemSchema)
