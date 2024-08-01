@@ -1,4 +1,5 @@
 import yup from "yup";
+import { orderStatus } from "../config/orderStatus.js";
 
 const schemas = {
     createSchema: yup.object({

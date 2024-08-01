@@ -22,7 +22,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 let server;
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+
+mongoose.set('strictQuery', true);
+
+mongoose.connect(CONNECTION_URL, {
+  serverSelectionTimeoutMS: 5000
+}).then(() => {
   logger.info("Connected to MongoDB");
   server = app.listen(PORT, () => {
     logger.info(`Listening to port ${PORT}`);

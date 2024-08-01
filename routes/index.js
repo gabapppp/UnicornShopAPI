@@ -2,12 +2,8 @@ import express from 'express';
 import authRoute from './authRoute.js';
 import userRoute from './userRoute.js';
 import orderRoute from './orderRoute.js';
-<<<<<<< HEAD
 import paymentRoute from './paymentRoute.js';
 import productRoute from './productRoute.js';
-=======
-
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
 import adminRoute from './admin/index.js';
 const router = express.Router();
 /***
@@ -40,13 +36,8 @@ router.get('/status', (req, res) => {
 router.use('/auth', authRoute); //add routes
 router.use('/user', userRoute);
 router.use('/order', orderRoute);
-<<<<<<< HEAD
 router.use('/payment', paymentRoute);
 router.use('/product', productRoute);
-=======
-
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
-
 
 router.use('/admin', adminRoute);
 export default router;

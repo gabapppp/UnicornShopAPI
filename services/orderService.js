@@ -4,9 +4,6 @@ import APIError from "../utils/APIError.js";
 import { orderStatus } from "../config/orderStatus.js";
 
 const createNewOrder = async (order) => {
-<<<<<<< HEAD
-    const newOrder = await OrderModel.create(OrderModel);
-=======
     const newOrder = await OrderModel.create({
         customerRef: order.customer._id,
         username: order.customer.username,
@@ -15,35 +12,16 @@ const createNewOrder = async (order) => {
         phone: order.phone,
         address: order.address,
     });
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
     if (!newOrder)
         throw new APIError(httpStatus.BAD_REQUEST, "Oops...seems our server needed a break!");
     return newOrder;
 };
 
-<<<<<<< HEAD
-const OrderList = async (customerID) => {
-=======
 const fetchOrderListByUserID = async (customerID) => {
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
     const list = await OrderModel.find({ customerID: customerID });
     return list;
 };
 
-<<<<<<< HEAD
-const OrderDetail = async (orderID) => {
-
-    const order = await OrderModel.findOne(orderID);
-    if (!order)
-        throw new APIError(httpStatus.BAD_REQUEST, "Product not found")
-    return order;
-};
-
-export {
-    createNewOrder//, fetchProductList, fetchProductDetail, updateProduct
-}
-
-=======
 const fetchOrderByID = async (orderID) => {
     const order = await OrderModel.findById(orderID);
     if (!order)
@@ -97,4 +75,3 @@ export {
     fetchOrderItemByOrderID,
     fetchFirstOrderItem
 }
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")

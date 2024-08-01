@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-import {
-    createNewOrder,
-    //fetchOrderList, fetchOrderDetail, updateOrder 
-} from "../services/orderService.js";
-import { createPayment } from "../services/paymentService.js";
-
-const createOrder = async (req, res, next) => {
-    const { name, color, image, category, department, size, description, price, stock } = req.body;
-    try {
-        const newProduct = await createNewProduct({
-            name: name,
-            color: color,
-            image: image,
-            category: category,
-            department: department,
-            size: size,
-            description: description,
-            price: price,
-            stock: stock
-=======
 import { orderStatus } from "../config/orderStatus.js";
 import { getUserFromId } from '../services/userService.js';
 import { fetchProductDetail, descreaseProductStockByID } from "../services/productService.js";
@@ -51,7 +30,6 @@ const createOrder = async (req, res, next) => {
             itemCnt += element.qty;
             descreaseProductStockByID(element.productID, element.qty);
             newOrderItemList.push(newOrderItem);
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
         });
         res.json({
             orderID: newOrder._id,
@@ -68,12 +46,6 @@ const createOrder = async (req, res, next) => {
         next(error);
     }
 };
-
-<<<<<<< HEAD
-const getProductDetail = async (req, res, next) => {
-    try {
-
-=======
 const getOrderDetail = async (req, res, next) => {
     const userId = req.authData.userId;
     const { orderID } = req.params;
@@ -109,20 +81,12 @@ const getOrderDetail = async (req, res, next) => {
                 });
             }
         }
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
     }
     catch (e) {
         next(e);
     }
 };
 
-<<<<<<< HEAD
-const getProductList = async (req, res, next) => {
-    try {
-        const productList = await fetchProductList();
-
-        res.json(productList);
-=======
 const getOrderList = async (req, res, next) => {
     const userId = req.authData.userId;
     try {
@@ -133,18 +97,12 @@ const getOrderList = async (req, res, next) => {
             e.firstProduct = firstProduct;
         });
         res.json(orderList);
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
     }
     catch (e) {
         next(e);
     }
 };
 
-<<<<<<< HEAD
-const updateProduct = async (req, res, next) => {
-    try {
-
-=======
 const cancelOrder = async (req, res, next) => {
     const userId = req.authData.userId;
     const { orderID } = req.body;
@@ -156,7 +114,6 @@ const cancelOrder = async (req, res, next) => {
             await updateOrderStatusToCancel(orderID);
             res.json({ message: "Order cancel Successful" });
         }
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
     }
     catch (e) {
         next(e);
@@ -164,9 +121,5 @@ const cancelOrder = async (req, res, next) => {
 };
 
 export default {
-<<<<<<< HEAD
-    createProduct, getProductList, getProductDetail, updateProduct
-=======
     createOrder, getOrderDetail, getOrderList, cancelOrder
->>>>>>> e163298 (Revert "Merge pull request #12 from gabapppp:gb109-be")
 }
